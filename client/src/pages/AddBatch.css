@@ -1,0 +1,258 @@
+.add-batch-page {
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: #22324a;
+}
+
+.add-batch-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 5.7%;
+  background: #ffffff;
+  border-bottom: 1px solid #e1e8ee;
+}
+
+.add-batch-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid #d4e0dd;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #285b54;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-batch-back:hover {
+  background: #eef7f4;
+}
+
+.add-batch-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #078c7d;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.add-batch-main {
+  width: min(900px, 90%);
+  margin: 0 auto;
+  padding: 35px 0 28px;
+}
+
+.add-batch-heading {
+  margin-bottom: 24px;
+}
+
+.add-batch-eyebrow {
+  margin: 0 0 12px;
+  color: #158879;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.add-batch-heading h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 36px);
+  letter-spacing: -0.8px;
+}
+
+.add-batch-heading > p:last-child {
+  margin-top: 12px;
+  color: #718096;
+  line-height: 1.6;
+}
+
+.add-batch-card {
+  display: grid;
+  gap: 24px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e0e8ed;
+  border-radius: 15px;
+  box-shadow: 0 4px 18px rgba(24, 50, 70, 0.035);
+}
+
+.add-batch-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.add-batch-field {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+}
+
+.add-batch-field label {
+  color: #34455c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.add-batch-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #dce5ec;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #26374c;
+  font: inherit;
+  font-size: 14px;
+}
+
+.add-batch-field input:focus {
+  border-color: #138d7d;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(19, 141, 125, 0.1);
+}
+
+.add-batch-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #dceee8;
+  border-radius: 10px;
+  background: #f0faf6;
+  color: #28675d;
+}
+
+.add-batch-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.add-batch-note p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.add-batch-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 5px;
+}
+
+.add-batch-cancel,
+.add-batch-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 18px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-batch-cancel {
+  border: 1px solid #d4e0dd;
+  background: #ffffff;
+  color: #285b54;
+}
+
+.add-batch-cancel:hover {
+  background: #f3f8f6;
+}
+
+.add-batch-submit {
+  border: 1px solid #087f70;
+  background: #087f70;
+  color: #ffffff;
+}
+
+.add-batch-submit:hover {
+  background: #06695e;
+}
+
+.add-batch-cancel:disabled,
+.add-batch-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.add-batch-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 15px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.add-batch-alert svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.add-batch-alert.error {
+  border: 1px solid #f0caca;
+  background: #fff0f0;
+  color: #a83333;
+}
+
+.add-batch-alert.success {
+  border: 1px solid #c5e8d2;
+  background: #edfaf1;
+  color: #197749;
+}
+
+.add-batch-footer {
+  padding-top: 24px;
+  color: #8493a2;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .add-batch-topbar {
+      padding: 14px 5%;
+  }
+
+  .add-batch-brand {
+      font-size: 18px;
+  }
+
+  .add-batch-main {
+      width: 92%;
+      padding-top: 25px;
+  }
+
+  .add-batch-card {
+      padding: 20px;
+  }
+
+  .add-batch-form-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+  }
+
+  .add-batch-actions {
+      flex-direction: column-reverse;
+  }
+
+  .add-batch-actions button {
+      width: 100%;
+  }
+}

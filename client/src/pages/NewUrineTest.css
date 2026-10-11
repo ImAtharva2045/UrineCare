@@ -1,0 +1,299 @@
+.new-test-page {
+  min-height: 100vh;
+  background: #f6f8f8;
+  color: #243638;
+}
+
+.new-test-header {
+  height: 76px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e8eeee;
+}
+
+.new-test-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border: 1px solid #dfe8e7;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #415958;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.new-test-back:hover {
+  background: #eff7f6;
+}
+
+.new-test-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #167d78;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.new-test-content {
+  width: 88%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 42px 0 35px;
+}
+
+.new-test-heading {
+  margin-bottom: 28px;
+}
+
+.new-test-eyebrow {
+  margin: 0 0 10px;
+  color: #167d78;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.new-test-heading h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: -0.7px;
+}
+
+.new-test-heading > p:last-child {
+  margin: 10px 0 0;
+  color: #7b8b8b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.new-test-card {
+  padding: 29px;
+  background: #ffffff;
+  border: 1px solid #e7eded;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(29, 65, 63, 0.035);
+}
+
+.test-form-section + .test-form-section {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #edf1f1;
+}
+
+.test-section-title {
+  margin-bottom: 22px;
+}
+
+.test-section-title h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #2e4443;
+}
+
+.test-section-title p {
+  margin: 7px 0 0;
+  color: #829090;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.urine-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 21px;
+}
+
+.urine-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.urine-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.urine-field label {
+  color: #405352;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.urine-field input,
+.urine-field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 45px;
+  padding: 0 13px;
+  border: 1px solid #dfe8e7;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #243638;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.urine-field input:focus,
+.urine-field select:focus {
+  border-color: #167d78;
+  box-shadow: 0 0 0 3px rgba(22, 125, 120, 0.09);
+}
+
+.urine-field small {
+  color: #a16b34;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.test-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 0;
+  color: #718381;
+  font-size: 13px;
+}
+
+.test-demo-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 15px;
+  border: 1px solid #dcebe9;
+  border-radius: 9px;
+  background: #f0f8f7;
+  color: #47716e;
+}
+
+.test-demo-notice svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.test-demo-notice p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.test-form-error,
+.test-form-success {
+  margin-top: 20px;
+  padding: 13px 15px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.test-form-error {
+  border: 1px solid #f0cccc;
+  background: #fff2f2;
+  color: #a33d3d;
+}
+
+.test-form-success {
+  border: 1px solid #c9ead5;
+  background: #eaf7ef;
+  color: #176b4b;
+}
+
+.test-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #edf1f1;
+}
+
+.test-cancel-button,
+.test-save-button {
+  min-height: 43px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.test-cancel-button {
+  border: 1px solid #dfe8e7;
+  background: #ffffff;
+  color: #415958;
+}
+
+.test-cancel-button:hover {
+  background: #f6f9f9;
+}
+
+.test-save-button {
+  border: none;
+  background: #167d78;
+  color: #ffffff;
+}
+
+.test-save-button:hover {
+  background: #116762;
+}
+
+.test-save-button:disabled,
+.test-cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .new-test-header {
+      height: 66px;
+      padding: 0 5%;
+  }
+
+  .new-test-brand {
+      font-size: 18px;
+  }
+
+  .new-test-content {
+      width: 92%;
+      padding-top: 30px;
+  }
+
+  .new-test-heading h1 {
+      font-size: 27px;
+  }
+
+  .new-test-card {
+      padding: 19px;
+  }
+
+  .urine-form-grid {
+      grid-template-columns: 1fr;
+      gap: 19px;
+  }
+
+  .urine-field.full-width {
+      grid-column: auto;
+  }
+
+  .test-form-actions {
+      flex-direction: column-reverse;
+  }
+
+  .test-cancel-button,
+  .test-save-button {
+      width: 100%;
+  }
+}
