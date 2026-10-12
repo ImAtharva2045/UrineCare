@@ -6,7 +6,8 @@ const {
   createUrineTest,
   getUrineTests,
   getUrineTestById,
-  submitForReview
+  submitForReview,
+  getRandomStripResults
 } = require("../controllers/urineTestController");
 
 const {
@@ -24,6 +25,12 @@ router.get(
     getUrineTests
 );
 
+// Fetch random strip test results
+router.get(
+    "/random-results",
+    allowRoles("Admin", "Technician"),
+    getRandomStripResults
+);
 
 router.patch(
   "/:id/submit",

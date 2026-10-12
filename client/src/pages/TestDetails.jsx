@@ -11,7 +11,8 @@ import {
     AlertCircle,
     CheckCircle,
     MessageSquareWarning,
-    Send
+    Send,
+    Printer
 } from "lucide-react";
 
 import api from "../api";
@@ -37,6 +38,10 @@ function TestDetails() {
     const isDoctor = user.role === "Doctor";
     const isTechnician = user.role === "Technician";
     const isAdmin = user.role === "Admin";
+
+    const handlePrint = () => {
+        window.print();
+    };
 
     const fetchTest = async () => {
         try {
@@ -245,7 +250,26 @@ function TestDetails() {
                     </div>
                 ) : test ? (
                     <>
-                        <div className="test-details-heading">
+                        {/* Printable official header (shown only when printing) */}
+                        <div className="print-header only-print">
+                            <div className="print-brand-row">
+                                <div>
+                                    <h1 className="print-lab-title">UrineCare Clinical Laboratory</h1>
+                                    <p className="print-lab-subtitle">Point-of-Care Urinalysis Diagnostic Report</p>
+                                </div>
+                                <div className="print-badge">
+                                    <span>APPROVED REPORT</span>
+                                </div>
+                            </div>
+                            <div className="print-meta-grid">
+                                <div><strong>Report ID:</strong> {test.reportId}</div>
+                                <div><strong>Status:</strong> {test.status}</div>
+                                <div><strong>Collection Time:</strong> {formatDate(test.sampleCollectedAt)}</div>
+                                <div><strong>Recorded Date:</strong> {formatDate(test.resultsRecordedAt)}</div>
+                            </div>
+                        </div>
+
+                        <div className="test-details-heading no-print">
                             <div>
                                 <p className="test-details-eyebrow">
                                     LABORATORY / REPORT DETAILS
@@ -261,14 +285,59 @@ function TestDetails() {
                                 </p>
                             </div>
 
-                            <span
-                                className={`test-details-status ${statusClass(
-                                    test.status
-                                )}`}
-                            >
-                                {test.status || "Draft"}
-                            </span>
+                            <div className="test-details-heading-actions">
+                                <span
+                                    className={`test-details-status ${statusClass(
+                                        test.status
+                                    )}`}
+                                >
+                                    {test.status || "Draft"}
+                                </span>
+
+                                {(isTechnician || isAdmin) &&
+                                    test.status === "Approved" && (
+                                        <button
+                                            type="button"
+                                            className="test-print-button no-print"
+                                            onClick={handlePrint}
+                                            title="Print official PDF report"
+                                        >
+                                            <Printer size={16} />
+                                            Print PDF Report
+                                        </button>
+                                    )}
+                            </div>
                         </div>
+
+                        {(isTechnician || isAdmin) &&
+                            test.status === "Approved" && (
+                                <section className="test-details-card test-approved-card no-print">
+                                    <div className="test-approved-content">
+                                        <div className="test-approved-info">
+                                            <div className="test-approved-icon">
+                                                <CheckCircle size={22} />
+                                            </div>
+                                            <div>
+                                                <h2>Report Approved by Doctor</h2>
+                                                <p>
+                                                    Reviewed and approved by Dr.{" "}
+                                                    {test.reviewedBy?.fullName || "Physician"} on {formatDate(test.reviewedAt)}.
+                                                    As a technician, you can now print or save the official laboratory report as a PDF.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            type="button"
+                                            className="test-print-action-button"
+                                            onClick={handlePrint}
+                                        >
+                                            <Printer size={18} />
+                                            Print PDF Report
+                                        </button>
+                                    </div>
+                                </section>
+                            )}
 
                         {reviewMessage && (
                             <div
@@ -618,6 +687,19 @@ function TestDetails() {
                                     {test.reviewComments}
                                 </p>
                             </section>
+                        )}
+
+                        {test.status === "Approved" && (
+                            <div className="print-approval-signature only-print">
+                                <div className="print-sign-box">
+                                    <div className="print-sign-line"></div>
+                                    <p><strong>Approved by:</strong> Dr. {test.reviewedBy?.fullName || "Physician"}</p>
+                                    <p className="print-sign-date">Review Date: {formatDate(test.reviewedAt)}</p>
+                                </div>
+                                <div className="print-stamp-box">
+                                    <span className="print-stamp">✓ OFFICIALLY VERIFIED & APPROVED</span>
+                                </div>
+                            </div>
                         )}
 
                         <p className="test-details-footer">

@@ -1,11 +1,75 @@
 
 const Patient = require("../models/Patient");
+const Counter = require("../models/Counter");
+
+// Helper function to calculate the next patient ID in UC-P-XXXX format
+const getNextPatientIdValue = async () => {
+    const counter = await Counter.findOne({ name: "patientId" });
+    let lastId = counter ? counter.lastPatientRecordedId : null;
+
+    if (!lastId) {
+        // Fallback: check existing patients in database with UC-P-XXXX format
+        const patients = await Patient.find({
+            patientId: { $regex: /^UC-P-\d+$/ }
+        }).select("patientId");
+
+        if (patients.length > 0) {
+            let maxNum = 0;
+            for (const p of patients) {
+                const match = p.patientId.match(/^UC-P-(\d+)$/);
+                if (match) {
+                    const num = parseInt(match[1], 10);
+                    if (num > maxNum) {
+                        maxNum = num;
+                        lastId = p.patientId;
+                    }
+                }
+            }
+        }
+    }
+
+    let nextNum = 1001;
+    if (lastId) {
+        const match = lastId.match(/^UC-P-(\d+)$/);
+        if (match) {
+            nextNum = parseInt(match[1], 10) + 1;
+        }
+    }
+
+    const nextPatientId = `UC-P-${String(nextNum).padStart(4, "0")}`;
+    return { nextPatientId, lastPatientRecordedId: lastId };
+};
+
+// Get the next incremented patient ID
+const getNextPatientId = async (req, res) => {
+    try {
+        const idInfo = await getNextPatientIdValue();
+        res.status(200).json(idInfo);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch next patient ID"
+        });
+    }
+};
 
 // Create a patient
 const createPatient = async (req, res) => {
     try {
-        const patient = new Patient(req.body);
+        let patientData = { ...req.body };
+        if (!patientData.patientId) {
+            const { nextPatientId } = await getNextPatientIdValue();
+            patientData.patientId = nextPatientId;
+        }
+
+        const patient = new Patient(patientData);
         const savedPatient = await patient.save();
+
+        // Store the last patient recorded id in the database
+        await Counter.findOneAndUpdate(
+            { name: "patientId" },
+            { lastPatientRecordedId: savedPatient.patientId },
+            { upsert: true, new: true }
+        );
 
         res.status(201).json({
             message: "Patient registered successfully",
@@ -149,6 +213,7 @@ const deletePatient = async (req, res) => {
 
 module.exports = {
     createPatient,
+    getNextPatientId,
     getPatients,
     getPatientById,
     updatePatient,

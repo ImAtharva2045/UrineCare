@@ -267,10 +267,79 @@ const submitForReview = async (req, res) => {
     }
 };
 
+// Fetch random strip test results (from existing records or generated valid values)
+const getRandomStripResults = async (req, res) => {
+    try {
+        const standardOptions = ["Negative", "Trace", "+", "++", "+++", "++++"];
+        const urobilinogenOptions = ["Normal", "Trace", "+", "++", "+++", "++++"];
+        const nitriteOptions = ["Negative", "Positive"];
+        const phOptions = ["5.0", "5.5", "6.0", "6.5", "7.0", "7.5", "8.0"];
+        const specificGravityOptions = [
+            "1.005",
+            "1.010",
+            "1.015",
+            "1.020",
+            "1.025",
+            "1.030"
+        ];
+
+        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        // Option to sample from existing tests in DB if available
+        const totalTests = await UrineTest.countDocuments();
+        if (totalTests > 0 && Math.random() < 0.6) {
+            const randomSample = await UrineTest.aggregate([
+                { $sample: { size: 1 } }
+            ]);
+            if (randomSample.length > 0 && randomSample[0].results) {
+                const r = randomSample[0].results;
+                return res.status(200).json({
+                    source: "database",
+                    results: {
+                        glucose: r.glucose || pick(standardOptions),
+                        protein: r.protein || pick(standardOptions),
+                        ketones: r.ketones || pick(standardOptions),
+                        blood: r.blood || pick(standardOptions),
+                        bilirubin: r.bilirubin || pick(standardOptions),
+                        leucocytes: r.leucocytes || pick(standardOptions),
+                        urobilinogen: r.urobilinogen || pick(urobilinogenOptions),
+                        nitrite: r.nitrite || pick(nitriteOptions),
+                        ph: String(r.ph ?? pick(phOptions)),
+                        specificGravity: String(r.specificGravity ?? pick(specificGravityOptions))
+                    }
+                });
+            }
+        }
+
+        // Otherwise generate randomized valid readings
+        const generatedResults = {
+            glucose: pick(standardOptions),
+            protein: pick(standardOptions),
+            ketones: pick(standardOptions),
+            blood: pick(standardOptions),
+            bilirubin: pick(standardOptions),
+            leucocytes: pick(standardOptions),
+            urobilinogen: pick(urobilinogenOptions),
+            nitrite: pick(nitriteOptions),
+            ph: pick(phOptions),
+            specificGravity: pick(specificGravityOptions)
+        };
+
+        return res.status(200).json({
+            source: "generated",
+            results: generatedResults
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to fetch random strip results"
+        });
+    }
+};
 
 module.exports = {
     createUrineTest,
     getUrineTests,
     getUrineTestById,
-    submitForReview
+    submitForReview,
+    getRandomStripResults
 };

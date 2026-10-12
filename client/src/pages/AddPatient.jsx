@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, UserPlus, Save, LoaderCircle } from "lucide-react";
 
@@ -11,6 +11,7 @@ function AddPatient() {
     const user = JSON.parse(
         sessionStorage.getItem("urinecareUser") || "null"
     );
+    const role = user?.role;
 
     const [formData, setFormData] = useState({
         patientId: "",
@@ -22,6 +23,26 @@ function AddPatient() {
 
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!role || !["Admin", "Technician"].includes(role)) return;
+
+        const fetchNextPatientId = async () => {
+            try {
+                const response = await api.get("/patients/next-id");
+                if (response.data?.nextPatientId) {
+                    setFormData((previous) => ({
+                        ...previous,
+                        patientId: response.data.nextPatientId
+                    }));
+                }
+            } catch (err) {
+                console.error("Failed to fetch next patient ID:", err);
+            }
+        };
+
+        fetchNextPatientId();
+    }, [role]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -131,7 +152,8 @@ function AddPatient() {
                                 name="patientId"
                                 value={formData.patientId}
                                 onChange={handleChange}
-                                placeholder="e.g. UC-1001"
+                                placeholder="Fetching ID..."
+                                readOnly
                                 required
                                 maxLength={50}
                             />

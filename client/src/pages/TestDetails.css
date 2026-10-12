@@ -276,3 +276,307 @@
       grid-template-columns: 1fr;
   }
 }
+
+/* Screen styling for print-only elements */
+.only-print {
+  display: none !important;
+}
+
+/* Heading action controls */
+.test-details-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.test-print-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #c9dedd;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #167d78;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(22, 125, 120, 0.08);
+}
+
+.test-print-button:hover {
+  background: #f0f7f6;
+  border-color: #167d78;
+  color: #0e5b57;
+}
+
+/* Approved Report Technician Banner */
+.test-approved-card {
+  border: 1px solid #b7e4c7;
+  background: #f4faf6;
+}
+
+.test-approved-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.test-approved-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.test-approved-icon {
+  color: #1b8a5a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.test-approved-info h2 {
+  margin: 0 0 4px;
+  color: #155d3d;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.test-approved-info p {
+  margin: 0;
+  color: #436a56;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.test-print-action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 9px;
+  background: #167d78;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(22, 125, 120, 0.2);
+  transition: all 0.2s ease;
+}
+
+.test-print-action-button:hover {
+  background: #116762;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .test-approved-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .test-print-action-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ========================================================
+   PRINT / PDF MEDIA STYLES
+   ======================================================== */
+@media print {
+  body, html {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 12pt;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print,
+  .test-details-topbar,
+  .test-details-back,
+  .test-details-message,
+  .test-details-error,
+  button {
+    display: none !important;
+  }
+
+  .only-print {
+    display: block !important;
+  }
+
+  .test-details-page {
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  .test-details-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-header {
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #167d78;
+  }
+
+  .print-brand-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .print-lab-title {
+    margin: 0;
+    font-size: 20pt;
+    color: #167d78;
+    font-weight: 800;
+  }
+
+  .print-lab-subtitle {
+    margin: 4px 0 0;
+    font-size: 10pt;
+    color: #4b5563;
+    font-weight: 500;
+  }
+
+  .print-badge span {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #e6f5ef !important;
+    border: 1px solid #197344;
+    color: #197344 !important;
+    font-size: 9pt;
+    font-weight: 700;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .print-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 9pt;
+  }
+
+  .test-details-card {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 14px 16px !important;
+    margin-bottom: 16px !important;
+    background: #ffffff !important;
+    page-break-inside: avoid;
+  }
+
+  .test-details-section-heading {
+    margin-bottom: 12px;
+    color: #167d78 !important;
+  }
+
+  .test-details-section-heading h2 {
+    font-size: 12pt !important;
+    color: #0f172a !important;
+  }
+
+  .test-details-info-grid {
+    gap: 12px !important;
+  }
+
+  .test-details-info-grid span {
+    font-size: 8.5pt !important;
+    color: #64748b !important;
+  }
+
+  .test-details-info-grid strong {
+    font-size: 10pt !important;
+    color: #0f172a !important;
+  }
+
+  .test-details-batch {
+    margin-top: 14px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+  }
+
+  .test-details-results {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .test-details-result {
+    min-height: auto !important;
+    padding: 8px 12px !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 4px !important;
+  }
+
+  .test-details-result span {
+    font-size: 9.5pt !important;
+    color: #334155 !important;
+    font-weight: 500;
+  }
+
+  .test-details-result strong {
+    font-size: 10pt !important;
+    color: #167d78 !important;
+    font-weight: 700 !important;
+  }
+
+  .print-approval-signature {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px dashed #cbd5e1;
+    page-break-inside: avoid;
+  }
+
+  .print-sign-box p {
+    margin: 3px 0;
+    font-size: 9.5pt;
+    color: #1e293b;
+  }
+
+  .print-sign-date {
+    color: #64748b;
+    font-size: 8.5pt;
+  }
+
+  .print-stamp {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 2px solid #167d78;
+    color: #167d78 !important;
+    font-weight: 800;
+    font-size: 9.5pt;
+    letter-spacing: 1px;
+    border-radius: 4px;
+  }
+
+  .test-details-footer {
+    margin-top: 20px !important;
+    padding-top: 10px !important;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt !important;
+    color: #94a3b8 !important;
+    text-align: center;
+  }
+}

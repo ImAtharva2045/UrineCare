@@ -5,6 +5,7 @@ const { protect, allowRoles } = require("../middleware/authMiddleware");
 
 const {
     createPatient,
+    getNextPatientId,
     getPatients,
     getPatientById,
     updatePatient,
@@ -14,6 +15,9 @@ const {
 
 // Every patient route requires login
 router.use(protect);
+
+// Get next auto-incremented patient ID (UC-P-XXXX)
+router.get("/next-id", allowRoles("Admin", "Technician"), getNextPatientId);
 
 // Admins and technicians can register patients
 router.route("/")

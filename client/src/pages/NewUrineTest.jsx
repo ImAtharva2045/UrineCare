@@ -33,6 +33,28 @@ const resultOptions = [
     "++++"
 ];
 
+const getRandomInitialResults = () => {
+    const standardOptions = ["Negative", "Trace", "+", "++", "+++", "++++"];
+    const urobilinogenOptions = ["Normal", "Trace", "+", "++", "+++", "++++"];
+    const nitriteOptions = ["Negative", "Positive"];
+    const phOptions = ["5.0", "5.5", "6.0", "6.5", "7.0", "7.5", "8.0"];
+    const sgOptions = ["1.005", "1.010", "1.015", "1.020", "1.025", "1.030"];
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    return {
+        glucose: pick(standardOptions),
+        protein: pick(standardOptions),
+        ketones: pick(standardOptions),
+        blood: pick(standardOptions),
+        bilirubin: pick(standardOptions),
+        leucocytes: pick(standardOptions),
+        urobilinogen: pick(urobilinogenOptions),
+        nitrite: pick(nitriteOptions),
+        ph: pick(phOptions),
+        specificGravity: pick(sgOptions)
+    };
+};
+
 function NewUrineTest() {
     const navigate = useNavigate();
 
@@ -42,12 +64,35 @@ function NewUrineTest() {
     const [patient, setPatient] = useState("");
     const [stripBatch, setStripBatch] = useState("");
     const [sampleCollectedAt, setSampleCollectedAt] = useState("");
-    const [results, setResults] = useState(initialResults);
+    const [results, setResults] = useState(getRandomInitialResults);
 
     const [loadingOptions, setLoadingOptions] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+
+    const fetchRandomResults = async () => {
+        try {
+            const response = await api.get("/tests/random-results");
+            if (response.data?.results) {
+                const r = response.data.results;
+                setResults({
+                    glucose: r.glucose || "Negative",
+                    protein: r.protein || "Negative",
+                    ketones: r.ketones || "Negative",
+                    blood: r.blood || "Negative",
+                    bilirubin: r.bilirubin || "Negative",
+                    leucocytes: r.leucocytes || "Negative",
+                    urobilinogen: r.urobilinogen || "Normal",
+                    nitrite: r.nitrite || "Negative",
+                    ph: String(r.ph ?? "7"),
+                    specificGravity: String(r.specificGravity ?? "1.020")
+                });
+            }
+        } catch {
+            // Random initial results are already in place as fallback
+        }
+    };
 
     useEffect(() => {
         const fetchOptions = async () => {
@@ -96,6 +141,7 @@ function NewUrineTest() {
         };
 
         fetchOptions();
+        fetchRandomResults();
     }, []);
 
     const handleResultChange = (e) => {

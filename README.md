@@ -9,10 +9,10 @@ The application demonstrates how a digital point-of-care testing workflow can be
 ## Features
 
 - **Role-Based Authentication:** Separate access for Admin, Doctor, and Technician users.
-- **Patient Management:** Create and maintain patient records.
-- **Urine Test Reports:** Record urine reagent strip readings and associate them with patients.
+- **Patient Management & Auto ID Tracking:** Create and maintain patient records with fixed-format auto-incremented IDs (`UC-P-XXXX`), persisted in the database via a dedicated `Counter` model.
+- **Urine Test Reports & Auto Strip Simulation:** Record urine reagent strip readings with automatic realistic sample readings populated on test form creation.
 - **Strip Inventory Management:** Track strip batches, expiry dates, and remaining stock.
-- **Doctor Review Workflow:** Submit reports for review, approve them, or request revisions.
+- **Doctor Review & PDF Report Printing:** Doctors can review and approve reports or request revisions. Once approved, technicians can print or save the official laboratory diagnostic report as a PDF.
 - **Audit Logs:** Maintain a history of report creation, submissions, approvals, and revision requests.
 - **Centralized Database:** Store application data in MongoDB.
 
@@ -40,29 +40,29 @@ The application follows a client-server architecture.
 
 ## User Roles
 
-- **Admin:** Accesses administrative features, manages user accounts through the available backend functionality, and views audit logs.
-- **Technician:** Manages patient records, records urine test results, and submits reports for review.
-- **Doctor:** Reviews submitted reports, approves reports, or requests revisions.
+- **Admin:** Accesses administrative features, manages user accounts, views audit logs, and oversees patient/test records.
+- **Technician:** Registers patients with auto-assigned `UC-P-XXXX` identifiers, records urine tests (with automatically simulated strip readings), submits reports for review, and prints/downloads official PDF reports once approved by a doctor.
+- **Doctor:** Reviews submitted point-of-care test reports, approves valid reports, or requests revisions with feedback comments.
 
 Access to individual operations depends on the permissions implemented in the backend.
 
 ## Main Modules
 
 ### 1. Patient Management
-Stores patient identifiers and demographic details required to associate patients with test reports.
+Stores patient demographic details and auto-assigns fixed-format identifiers (`UC-P-XXXX`). The backend maintains a `lastPatientRecordedId` tracking variable in the `Counter` collection to ensure continuous, sequential patient numbering.
 
 ### 2. Urine Test Reports
-Records reagent strip readings, including glucose, protein, ketones, blood, bilirubin, leucocytes, urobilinogen, nitrite, pH, and specific gravity.
+Records reagent strip readings across 10 parameters: glucose, protein, ketones, blood, bilirubin, leucocytes, urobilinogen, nitrite, pH, and specific gravity. On opening the new test form, realistic random sample readings are automatically loaded to expedite laboratory data entry during demonstrations.
 
 ### 3. Strip Inventory
 Maintains batch details, expiry dates, received quantities, and remaining stock. Creating a test report consumes one strip from an eligible batch.
 
-### 4. Doctor Review
-Supports the report workflow:
+### 4. Doctor Review & PDF Generation
+Supports the clinical review workflow:
 
 `Draft → Pending Review → Approved`
 
-Alternatively, a doctor can request revisions, after which the technician can update and resubmit the report.
+Alternatively, a doctor can request revisions, after which the technician can update and resubmit the report. Once approved by a doctor, technicians are provided an official **Print PDF Report** option with dedicated print-media formatting, official laboratory letterhead, and verification stamps.
 
 ### 5. Audit Logs
 Records important report-related actions, associated users, and activity timestamps.
@@ -224,17 +224,17 @@ Each person's data is stored in the MongoDB database configured in their own env
 
 The backend exposes REST API endpoints under `/api`.
 
-| Endpoint prefix | Purpose |
-|---|---|
-| `/api/auth` | Authentication |
-| `/api/users` | User-related operations |
-| `/api/patients` | Patient records |
-| `/api/batches` | Strip inventory |
-| `/api/tests` | Urine test reports and submission workflow |
-| `/api/reviews` | Doctor review actions |
-| `/api/audit` | Audit log retrieval |
+| Endpoint prefix | Key routes | Purpose |
+|---|---|---|
+| `/api/auth` | `/login`, `/me` | Authentication & token verification |
+| `/api/users` | `/`, `/:id` | User management (Admin) |
+| `/api/patients` | `/`, `/:id`, `/next-id` | Patient records & auto-incremented ID generation |
+| `/api/batches` | `/`, `/:id` | Strip inventory management |
+| `/api/tests` | `/`, `/:id`, `/random-results`, `/:id/submit` | Urine test reports, random simulation, and submission |
+| `/api/reviews` | `/:id/approve`, `/:id/revision` | Doctor review workflow (approval/revisions) |
+| `/api/audit` | `/` | Audit log retrieval |
 
-Protected endpoints require authentication and may enforce role-specific permissions.
+Protected endpoints require authentication and enforce role-specific permissions (`Admin`, `Doctor`, `Technician`).
 
 ## Security Considerations
 
@@ -253,10 +253,10 @@ Protected endpoints require authentication and may enforce role-specific permiss
 
 ## Future Enhancements
 
-- Automated test strip image interpretation after appropriate validation.
-- Improved report export and printing.
-- Additional analytics and inventory alerts.
-- Comprehensive automated testing and production deployment.
+- Automated test strip camera/image optical interpretation after appropriate clinical validation.
+- Barcode and QR code scanning for patient IDs and strip batch tracking.
+- Additional analytics and automated inventory reorder alerts.
+- Comprehensive automated end-to-end testing and production cloud deployment.
 
 ## Author
 

@@ -288,10 +288,6 @@
       grid-column: auto;
   }
 
-  .test-form-actions {
-      flex-direction: column-reverse;
-  }
-
   .test-cancel-button,
   .test-save-button {
       width: 100%;
